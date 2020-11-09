@@ -101,7 +101,7 @@ import VueGridLayout from 'vue-grid-layout';
 import lineChart from '../../components/core/chart/LineChart'
 import barChart from '../../components/core/chart/BarChart'
 import dialogItemSetting from '../../components/popup/DialogItemSetting'
-import data from '../../components/setting.json'
+/*import data from '../../components/setting.json'*/
 
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
@@ -128,7 +128,7 @@ export default {
         {id:'delete',title:'delete', icon:"mdi-delete-empty"},
       ],
       /*todo : localDb*/
-      itemList: data,
+      itemList: [],
       lineChartOption:{
         animation: false,
         parsing:false,

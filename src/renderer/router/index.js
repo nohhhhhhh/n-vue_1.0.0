@@ -9,7 +9,7 @@ const routes = [
       name: '',
       requiresAuth: false
     },
-    component: () => import(`../components/LandingPage`)
+    component: () => import(`../components/moni/dashboard`)
   }
 ];
 

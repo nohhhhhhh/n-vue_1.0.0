@@ -19,6 +19,7 @@
   "main": "./dist/electron/main.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "chart.js": "^2.9.4",
     "electron-updater": "^4.0.6",
     "element-ui": "^2.9.1",
     "exceljs": "^3.5.0",
@@ -28,13 +29,16 @@
     "lowdb": "^1.0.0",
     "material-design-icons-iconfont": "^4.0.5",
     "moment": "^2.24.0",
+    "sockjs-client": "^1.5.0",
     "vue": "^2.6.10",
+    "vue-chartjs": "^3.5.1",
     "vue-electron": "^1.0.6",
     "vue-grid-layout": "^2.3.11",
     "vue-router": "^3.0.3",
     "vuetify": "^1.5.11",
     "vuex": "^3.1.0",
     "vuex-electron": "^1.0.3",
+    "webstomp-client": "^1.2.6",
     "winreg": "^1.2.4"
   },
   "devDependencies": {

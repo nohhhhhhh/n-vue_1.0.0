@@ -60,17 +60,17 @@ function startRenderer () {
     })
 
     const server = new WebpackDevServer(
-      compiler,
-      {
-        contentBase: path.join(__dirname, '../'),
-        quiet: true,
-        before (app, ctx) {
-          app.use(hotMiddleware)
-          ctx.middleware.waitUntilValid(() => {
-            resolve()
-          })
+        compiler,
+        {
+          contentBase: path.join(__dirname, '../'),
+          quiet: true,
+          before (app, ctx) {
+            app.use(hotMiddleware)
+            ctx.middleware.waitUntilValid(() => {
+              resolve()
+            })
+          }
         }
-      }
     )
 
     server.listen(9080)
@@ -116,6 +116,8 @@ function startMain () {
 function startElectron () {
   var args = [
     '--inspect=5858',
+    // 为了方便调试chrome://inspect，本地调试用，此代码不能提交
+    // '--inspect-brk=5858',
     path.join(__dirname, '../dist/electron/main.js')
   ]
 
@@ -127,7 +129,7 @@ function startElectron () {
   }
 
   electronProcess = spawn(electron, args)
-  
+
   electronProcess.stdout.on('data', data => {
     electronLog(data, 'blue')
   })
@@ -148,11 +150,11 @@ function electronLog (data, color) {
   })
   if (/[0-9A-z]+/.test(log)) {
     console.log(
-      chalk[color].bold('┏ Electron -------------------') +
-      '\n\n' +
-      log +
-      chalk[color].bold('┗ ----------------------------') +
-      '\n'
+        chalk[color].bold('┏ Electron -------------------') +
+        '\n\n' +
+        log +
+        chalk[color].bold('┗ ----------------------------') +
+        '\n'
     )
   }
 }
@@ -179,12 +181,12 @@ function init () {
   greeting()
 
   Promise.all([startRenderer(), startMain()])
-    .then(() => {
-      startElectron()
-    })
-    .catch(err => {
-      console.error(err)
-    })
+      .then(() => {
+        startElectron()
+      })
+      .catch(err => {
+        console.error(err)
+      })
 }
 
 init()

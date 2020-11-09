@@ -6,7 +6,8 @@ const path = require('path')
 const { dependencies } = require('../package.json')
 const webpack = require('webpack')
 
-const MinifyPlugin = require("babel-minify-webpack-plugin")
+// const BabiliWebpackPlugin = require('babili-webpack-plugin')
+const BabiliWebpackPlugin = require('babel-minify-webpack-plugin')
 
 let mainConfig = {
   entry: {
@@ -15,19 +16,10 @@ let mainConfig = {
   externals: [
     ...Object.keys(dependencies || {})
   ],
+  // 为了方便调试chrome://inspect，本地调试用，此代码不能提交
+  // devtool:`inline-source-map`,
   module: {
     rules: [
-      {
-        test: /\.(js)$/,
-        enforce: 'pre',
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: {
-            formatter: require('eslint-friendly-formatter')
-          }
-        }
-      },
       {
         test: /\.js$/,
         use: 'babel-loader',
@@ -62,9 +54,9 @@ let mainConfig = {
  */
 if (process.env.NODE_ENV !== 'production') {
   mainConfig.plugins.push(
-    new webpack.DefinePlugin({
-      '__static': `"${path.join(__dirname, '../static').replace(/\\/g, '\\\\')}"`
-    })
+      new webpack.DefinePlugin({
+        '__static': `"${path.join(__dirname, '../static').replace(/\\/g, '\\\\')}"`
+      })
   )
 }
 
@@ -73,10 +65,10 @@ if (process.env.NODE_ENV !== 'production') {
  */
 if (process.env.NODE_ENV === 'production') {
   mainConfig.plugins.push(
-    new MinifyPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
-    })
+      new BabiliWebpackPlugin(),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"production"'
+      })
   )
 }
 

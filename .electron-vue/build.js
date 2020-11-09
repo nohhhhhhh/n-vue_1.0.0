@@ -82,10 +82,10 @@ function pack (config) {
           chunks: false,
           colors: true
         })
-        .split(/\r?\n/)
-        .forEach(line => {
-          err += `    ${line}\n`
-        })
+            .split(/\r?\n/)
+            .forEach(line => {
+              err += `    ${line}\n`
+            })
 
         reject(err)
       } else {

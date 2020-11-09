@@ -1,18 +1,22 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
+Vue.use(VueRouter);
 
-Vue.use(Router)
-
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'landing-page',
-      component: require('@/components/LandingPage').default
+const routes = [
+  {
+    path: '/',
+    meta: {
+      name: '',
+      requiresAuth: false
     },
-    {
-      path: '*',
-      redirect: '/'
-    }
-  ]
-})
+    component: () => import(`../components/LandingPage`)
+  }
+];
+
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes
+});
+
+export default router;

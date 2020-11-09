@@ -128,7 +128,30 @@ export default {
         {id:'delete',title:'delete', icon:"mdi-delete-empty"},
       ],
       /*todo : localDb*/
-      itemList: [],
+      itemList: [
+        {
+          "socketConnect": "",
+          "socketUrl": "http://localhost:8080/commonSocket",
+          "socketType": "sockJs",
+          "subscribeUrl": "/weight/MonitoringNB08",
+          "x":0,
+          "y":0,
+          "w":4,
+          "h":2,
+          "i":"0",
+          "minW":4,
+          "type": "lineChart",
+          "title": "11호기",
+          "data":{
+            "datasets": [
+              {
+                "data": []
+              }
+            ]
+          }
+        }
+      ]
+      ,
       lineChartOption:{
         animation: false,
         parsing:false,

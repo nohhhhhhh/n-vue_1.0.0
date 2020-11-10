@@ -1,34 +1,34 @@
 <template>
   <div>
-    <!--http://materialdesignicons.com/cdn/2.0.46/-->
+    <!--https://material.io/resources/icons/?style=baseline-->
     <v-toolbar height="35px">
       <v-spacer></v-spacer>
       <v-btn icon v-if="isEdit" @click="addItem('lineChart')">
-        <v-icon>mdi-chart-areaspline</v-icon>
+        <v-icon>show_chart</v-icon>
       </v-btn>
 
       <v-btn icon v-if="isEdit" @click="addItem('barChart')">
-        <v-icon>mdi-chart-bar</v-icon>
+        <v-icon>insert_chart_outlined</v-icon>
       </v-btn>
 
-      <v-btn icon v-if="isEdit" @click="addItem('table')">
-        <v-icon>mdi-table-edit</v-icon>
+      <!--<v-btn icon v-if="isEdit" @click="addItem('table')">
+        <v-icon>table_view</v-icon>
+      </v-btn>-->
+
+      <v-btn icon v-if="isEdit" @click="addItem('label')">
+        <v-icon>label</v-icon>
       </v-btn>
 
       <v-btn icon v-if="isEdit" @click="addItem('label')">
-        <v-icon>mdi-format-text</v-icon>
-      </v-btn>
-
-      <v-btn icon v-if="isEdit" @click="addItem('label')">
-        <v-icon>mdi-content-save</v-icon>
+        <v-icon>save_alt</v-icon>
       </v-btn>
 
       <v-btn icon v-if="isEdit" @click="isEdit=false">
-        <v-icon>mdi-logout</v-icon>
+        <v-icon>edit</v-icon>
       </v-btn>
 
-      <v-btn icon v-if="!isEdit" @click="isEdit = true" >
-        <v-icon>mdi-pencil-box-outline</v-icon>
+      <v-btn icon v-if="!isEdit" @click="isEdit=true" >
+        <v-icon>edit</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -38,40 +38,31 @@
         @layout-updated="layoutUpdatedEvent" @layout-created="layoutCreatedEvent">
       <grid-item v-for="item in itemList" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i" :class="item.i">
           <v-flex md12 sm12>
-            <material-card color="warning" type="Line">
-              <v-card-title class="display-1">
-                <!--<span class="headline">Menu</span>-->
-              <h1 class="title font-weight-thick">{{item.title}}</h1>
-              <v-spacer></v-spacer>
-              <v-menu bottom left>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn dark icon v-bind="attrs" v-on="on">
-                    <v-icon >mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
+            <v-card>
+              <v-card-title  class="pb-0">
+                <h1 class="title font-weight-thick">{{item.title}}</h1>
+                <v-spacer></v-spacer>
+                <v-menu bottom left>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn dark icon v-bind="attrs" v-on="on">
+                      <v-icon>more_vert</v-icon>
+                    </v-btn>
+                  </template>
 
-                <v-list>
-                  <v-list-item v-for="set in settingMenu" :key="set.i">
-                    <v-list-item-title>
-                      <v-btn icon><v-icon small @click="settingItem(set.id, item.i)">{{set.icon}}</v-icon></v-btn></v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
+                  <v-list>
+                    <v-list-item v-for="set in settingMenu" :key="set.i">
+                      <v-list-item-title>
+                        <v-btn icon  @click="settingItem(set.id, item.i)"><v-icon>{{set.icon}}</v-icon></v-btn></v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </v-card-title>
 
               <!--<p class="category d-inline-flex font-weight-light" id="ddd" v-bind:style="{height: (item.h*60)+'px'}">-->
                 <line-chart v-if="item.type == 'lineChart'" :chart-data="item.data" :options="lineChartOption" :ref="'chart'+item.i"></line-chart>
                 <bar-chart v-if="item.type == 'barChart'" :chart-data="item.data" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart>
               <!--</p>-->
-
-              <template slot="actions">
-                <v-icon class="mr-2" small>
-                  mdi-clock-outline
-                </v-icon>
-                <span class="caption grey-lighten-1&#45;&#45;text font-weight-light">updated 4 minutes ago</span>
-              </template>
-
-            </material-card>
+            </v-card>
           </v-flex>
       </grid-item>
     </grid-layout>
@@ -124,8 +115,8 @@ export default {
       itemOptions: [],
       /*todo : localDb or Setting file*/
       settingMenu: [
-        {id:'setting',title:'test', icon:"mdi-wrench"},
-        {id:'delete',title:'delete', icon:"mdi-delete-empty"},
+        {id:'setting',title:'setting', icon:"settings"},
+        {id:'delete',title:'delete', icon:"delete"},
       ],
       /*todo : localDb*/
       itemList: [
@@ -277,6 +268,7 @@ export default {
           }
         ]
       });
+      console.log(":::::::::::")
       console.log(key)
       console.log(JSON.stringify(this.itemList))
     },

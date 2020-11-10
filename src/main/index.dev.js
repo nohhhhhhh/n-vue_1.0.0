@@ -6,7 +6,6 @@
  */
 
 /* eslint-disable */
-
 // Install `electron-debug` with `devtron`
 require('electron-debug')({ showDevTools: true })
 
@@ -19,6 +18,5 @@ require('electron').app.on('ready', () => {
       console.log('Unable to install `vue-devtools`: \n', err)
     })
 })
-
 // Require `main` process to boot app
 require('./index')

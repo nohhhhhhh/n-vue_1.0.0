@@ -14,7 +14,9 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
-    "unit": "karma start test/unit/karma.conf.js"
+    "unit": "karma start test/unit/karma.conf.js",
+    "rebuild": "electron-rebuild -w sqlite3 -p",
+    "postinstall": "electron-builder install-app-deps"
   },
   "main": "./dist/electron/main.js",
   "dependencies": {
@@ -30,7 +32,10 @@
     "lowdb": "^1.0.0",
     "material-design-icons-iconfont": "^4.0.5",
     "moment": "^2.24.0",
+    "nedb": "^1.8.0",
+    "nedb-core": "^3.0.6",
     "sockjs-client": "^1.5.0",
+    "sqlite3": "^5.0.0",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.5.1",
     "vue-electron": "^1.0.6",
@@ -64,6 +69,7 @@
     "electron-builder": "^22.4.0",
     "electron-debug": "^2.2.0",
     "electron-devtools-installer": "^2.2.4",
+    "electron-rebuild": "^2.3.2",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-vue": "^7.1.0",
     "file-loader": "^3.0.1",
@@ -113,7 +119,7 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/nvue.ico"
     },
     "linux": {
       "icon": "build/icons"

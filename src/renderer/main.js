@@ -9,6 +9,9 @@ import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import './components'
 import './config'
+import db from './datastore/index'
+Vue.prototype.$db = db;
+
 const model = require('./datastore/index')
 
 model.initDB();

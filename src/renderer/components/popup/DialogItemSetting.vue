@@ -90,7 +90,6 @@ export default {
   },
   mounted:function(){
    this.vItemType = this.options.type;
-   console.log(this.isSetting);
   },
   methods:{
     SaveSetting(){

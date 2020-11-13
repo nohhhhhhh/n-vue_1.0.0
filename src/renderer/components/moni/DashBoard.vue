@@ -59,8 +59,8 @@
               </v-card-title>
 
               <!--<p class="category d-inline-flex font-weight-light" id="ddd" v-bind:style="{height: (item.h*60)+'px'}">-->
-                <line-chart v-if="item.type == 'lineChart'" :chart-data="item.data" :options="lineChartOption" :ref="'chart'+item.i"></line-chart>
-                <bar-chart v-if="item.type == 'barChart'" :chart-data="item.data" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart>
+              <core-chart-line-chart v-if="item.type == 'lineChart'" :chart-data="item.data" :options="lineChartOption" :ref="'chart'+item.i"></core-chart-line-chart>
+              <core-chart-bar-chart v-if="item.type == 'barChart'" :chart-data="item.data" :options="{responsive: true, maintainAspectRatio: false}"></core-chart-bar-chart>
               <!--</p>-->
             </v-card>
           </v-flex>
@@ -83,16 +83,13 @@
       </v-dialog>
     </v-row>
 
-    <dialog-item-setting v-if="isSetting" :options="itemOptions" :isSetting="isSetting" @completeSet="completeSet"></dialog-item-setting>
+    <popup-dialog-item-setting v-if="isSetting" :options="itemOptions" :isSetting="isSetting" @completeSet="completeSet"></popup-dialog-item-setting>
   </div>
 </template>
 
 <script>
 import VueGridLayout from 'vue-grid-layout';
-import lineChart from '../../components/core/chart/LineChart'
-import barChart from '../../components/core/chart/BarChart'
-import dialogItemSetting from '../../components/popup/DialogItemSetting'
-/*import data from '../../components/setting.json'*/
+const tempdate = require('../../datastore/tempData')
 
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
@@ -102,9 +99,6 @@ export default {
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
-    lineChart,
-    barChart,
-    dialogItemSetting
   },
   data () {
     return {
@@ -119,30 +113,7 @@ export default {
         {id:'delete',title:'delete', icon:"delete"},
       ],
       /*todo : localDb*/
-      itemList: [
-        {
-          "socketConnect": "",
-          "socketUrl": "http://localhost:8080/commonSocket",
-          "socketType": "sockJs",
-          "subscribeUrl": "/weight/MonitoringNB08",
-          "x":0,
-          "y":0,
-          "w":4,
-          "h":2,
-          "i":"0",
-          "minW":4,
-          "type": "lineChart",
-          "title": "11호기",
-          "data":{
-            "datasets": [
-              {
-                "data": []
-              }
-            ]
-          }
-        }
-      ]
-      ,
+      itemList: [],
       lineChartOption:{
         animation: false,
         parsing:false,
@@ -203,22 +174,31 @@ export default {
       },
     }
   },
-  computed: {
+  mounted: function() {
+    this.init()
+    this.initSocket();
   },
   methods: {
+    init(){
+      this.itemList= tempdate.getItem();
+    },
+    initSocket(){
+      if(this.itemList.length>0){
+        for(var item in this.itemList) {
+          this.connSockJs(this.itemList[item])
+        }
+      }
+
+    },
     layoutCreatedEvent: function (newLayout) {
-      console.log('Created layout: ', newLayout)
       //this.connSockJs(data[0])
      // setInterval(() => this.createTestData(), 1000);
     },
     settingItem(type, key){
-      console.log(key)
       if(type=="setting"){
         this.isSetting=true;
         let itemIdx = this.itemList.findIndex(({i}) => i == key);
         this.itemOptions=this.itemList[itemIdx];
-        console.log(":::::::::::");
-        console.log(this.itemOptions);
       }else{
         this.dialog=true;
         this.deleteItem(key);
@@ -268,9 +248,6 @@ export default {
           }
         ]
       });
-      console.log(":::::::::::")
-      console.log(key)
-      console.log(JSON.stringify(this.itemList))
     },
     deleteItem(key){
       this.itemList.splice(this.itemList.findIndex(({i}) => i == key), 1);
@@ -318,7 +295,8 @@ export default {
       console.log(data.prodSpecInfo[0].lcl)
       let key = param.key
       let x = new Date();
-      let y = data.colWeight[key][0]["weightVal"]
+      //let y = data.colWeight[key][0]["weightVal"]
+      let y = data.prodSpecInfo[0][key]
       let obj = {x:x, y: y}
       let dataset1 = param.data.datasets[0].data;
       if(dataset1.length>10) {

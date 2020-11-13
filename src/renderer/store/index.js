@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-import { createPersistedState, createSharedMutations } from 'vuex-electron'
-
 import modules from './modules'
+import { createPersistedState, createSharedMutations } from 'vuex-electron'
 
 Vue.use(Vuex)
 

@@ -9,7 +9,7 @@ if (remote) {
 
 export default {
     dbConnct: {
-        mySql: {
+        sqlite: {
             host: '',
             user: '',
             password: '',
@@ -20,9 +20,7 @@ export default {
         sqlite:""
     },
     userDataPath: app.getPath('userData'),
-    mac: '',
     os: '',
-    macIndex: 0,
     isEnviromentReady: false,
     isNedbReady: false,
     mainWindowHandle: 0,

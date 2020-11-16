@@ -1,4 +1,6 @@
 'use strict'
+import store from "../store";
+
 const fs = require('fs')
 const path = require('path')
 const SQL = require('sqlite3').verbose();
@@ -6,7 +8,7 @@ const api = require('./api/comMenu')
 
 let databasefile = 'base.db'
 let shemafile = 'schema.sql'
-
+let DB = new SQL.Database(path.resolve(__dirname, 'base.db'))
 
 SQL.dbClose = function (databaseHandle) {
 }
@@ -29,19 +31,6 @@ export const initDB  = () => {
     }
 
     createDb()
-    /*if (selectListSql(query) === 0) {
-        console.log('The file is an empty SQLite3 database.')
-        createDb()
-    } else {
-        console.log('The database has', row, 'tables.')
-    }*/
-
     api.getMenuList()
 }
 
-export const selectListSql  = (query,rtn) => {
-    openDB().all(query, [], (err, rows) => {
-        console.log(rows)
-        rtn = rows
-    });
-}

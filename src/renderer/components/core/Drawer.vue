@@ -81,34 +81,6 @@
     </v-navigation-drawer>
     <v-toolbar app fixed dense>
       <v-toolbar-side-icon @click.stop="mini = !mini" style="-webkit-app-region: no-drag"></v-toolbar-side-icon>
-      <v-toolbar-title class="red--text" style="-webkit-user-select: none;-webkit-app-region: drag"></v-toolbar-title>
-      <v-spacer style="height:90%;-webkit-app-region: drag"></v-spacer>
-      <v-btn style="-webkit-app-region: no-drag"
-             icon
-             @click.native.stop="winControl('minimize')"
-      >
-        <v-icon>remove</v-icon>
-      </v-btn>
-      <v-btn style="-webkit-app-region: no-drag"
-             icon
-             @click.native.stop="winControl('maximize')"
-             v-show="isMaximized"
-      >
-        <v-icon style="font-size: 20px;">filter_none</v-icon>
-      </v-btn>
-      <v-btn style="-webkit-app-region: no-drag"
-             icon
-             @click.native.stop="winControl('maximize')"
-             v-show="!isMaximized"
-      >
-        <v-icon>crop_square</v-icon>
-      </v-btn>
-      <v-btn style="-webkit-app-region: no-drag"
-             icon
-             @click.native.stop="winControl('close')"
-      >
-        <v-icon color="red">close</v-icon>
-      </v-btn>
     </v-toolbar>
   </div>
 </template>
@@ -116,6 +88,7 @@
 <script>
   const electron = require('electron');
   const remote = electron.remote;
+  import store from '../../store'
   import {mapActions} from 'vuex'
 
 export default {
@@ -123,13 +96,7 @@ export default {
     title: 'Nvue',
    // logo: require('/src/renderer/assets/img/com/logo.png'),
     drawer: null,
-    items: [
-      {heading: 'Home'},
-      {isSingle: true, icon: 'home', text: 'Dashboard', to: '/'},
-      {heading: 'System'},
-      {isSingle: true, icon: 'settings', text: 'Settings', to: '/settings'},
-      {isSingle: true, icon: 'help', text: 'Help', to: '/help'}
-    ],
+    items: store.state.menuList,
     mini: false,
     right: null,
     isMaximized: false
@@ -141,35 +108,7 @@ export default {
   methods: {
     ...mapActions([
       'updateDialog',
-    ]),
-    winControl(action) {
-      const browserWindow = remote.getCurrentWindow()
-      switch (action) {
-        case 'minimize':
-          browserWindow.minimize()
-          break;
-        case 'maximize':
-          // if (this.isMaximized) {
-          if (browserWindow.isMaximized()) {
-            browserWindow.unmaximize()
-          } else {
-            if (this.isMaximized) {
-              browserWindow.unmaximize()
-            } else {
-              browserWindow.maximize()
-            }
-          }
-          // this.isMaximized = browserWindow.isMaximized()
-          this.isMaximized = !this.isMaximized
-
-          break;
-        case 'close':
-          browserWindow.close()
-          break;
-        default:
-          break;
-      }
-    },
+    ])
   }
 }
 </script>

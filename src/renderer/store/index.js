@@ -5,8 +5,27 @@ import { createPersistedState, createSharedMutations } from 'vuex-electron'
 
 Vue.use(Vuex)
 
+const state = {
+  menuList: []
+}
+// sync
+const mutations = {
+  updateMenuList(state,list){
+    console.log("updateMenuListsss")
+    state.menuList = list
+  }
+}
+// Async
+const actions = {
+  updateMenuList ({ commit }, list) {
+    console.log("updateMenuListupdateMenuListupdateMenuList")
+    commit('updateMenuList', list)
+  }
+}
 export default new Vuex.Store({
-  modules,
+  state,
+  actions,
+  mutations,
   plugins: [
     createPersistedState(),
     createSharedMutations()
